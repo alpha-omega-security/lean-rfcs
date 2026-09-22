@@ -34,7 +34,7 @@ int main(void) {
     while ((rn = getline(&line, &cap, stdin)) >= 0) {
         size_t n = (size_t)rn;
         while (n && (line[n-1] == '\n' || line[n-1] == '\r')) n--;
-        if (n % 2) { printf("{\"valid\":false,\"body\":null,\"error\":\"bad-hex\"}\n"); fflush(stdout); continue; }
+        if (n % 2) { printf("{\"accept\":false,\"body_hex\":null,\"error\":\"bad-hex\"}\n"); fflush(stdout); continue; }
         size_t blen = n / 2;
         lean_object* ba = lean_alloc_sarray(1, blen, blen);
         uint8_t* dst = lean_sarray_cptr(ba);
@@ -44,16 +44,16 @@ int main(void) {
             if (hi < 0 || lo < 0) { bad = 1; break; }
             dst[i] = (uint8_t)(hi * 16 + lo);
         }
-        if (bad) { lean_dec(ba); printf("{\"valid\":false,\"body\":null,\"error\":\"bad-hex\"}\n"); fflush(stdout); continue; }
+        if (bad) { lean_dec(ba); printf("{\"accept\":false,\"body_hex\":null,\"error\":\"bad-hex\"}\n"); fflush(stdout); continue; }
 
         lean_object* res = CLAUSE_PARSE(ba);
         if (lean_obj_tag(res) == 0) {
-            printf("{\"valid\":false,\"body\":null}\n");
+            printf("{\"accept\":false,\"body_hex\":null}\n");
         } else {
             lean_object* body = lean_ctor_get(res, 0);
             size_t bl = lean_sarray_size(body);
             uint8_t* bp = lean_sarray_cptr(body);
-            printf("{\"valid\":true,\"body\":\"");
+            printf("{\"accept\":true,\"body_hex\":\"");
             for (size_t i = 0; i < bl; i++) printf("%02x", bp[i]);
             printf("\"}\n");
         }

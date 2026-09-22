@@ -16,8 +16,8 @@ class Oracle:
         self.proc.stdin.write(buf.hex() + "\n")
         self.proc.stdin.flush()
         r = json.loads(self.proc.stdout.readline())
-        body = bytes.fromhex(r["body"]) if r.get("body") is not None else None
-        return r["valid"], body
+        body = bytes.fromhex(r["body_hex"]) if r.get("body_hex") is not None else None
+        return r["accept"], body
 
     def close(self):
         try:
