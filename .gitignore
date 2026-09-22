@@ -1,0 +1,8 @@
+/.lake/
+/dist/
+*.o
+__pycache__/
+/adapters/http1/go-nethttp/go-nethttp
+/tools/venv/
+/compile_flags.txt
+.DS_Store

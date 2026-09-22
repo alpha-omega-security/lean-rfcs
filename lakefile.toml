@@ -1,0 +1,7 @@
+name = "leanrfcs"
+version = "0.0.0"
+defaultTargets = ["Rfc9112"]
+
+[[lean_lib]]
+name = "Rfc9112"
+srcDir = "lean"
